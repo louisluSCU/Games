@@ -1,4 +1,5 @@
 import argparse
+import os
 
 class Gomoko:
 
@@ -6,7 +7,7 @@ class Gomoko:
         self.size = size
         self.player = player
         self.board = [[0 for j in range(self.size)] for _ in range(self.size)]
-        self.piece = {0: " ", 1: "x", 2: "o", 3: "*", 4: ""}
+        self.piece = {0: "┼", 1: "●", 2: "○", 3: "◼︎", 4: "◻︎"}
         self.counter = 0
         self.OVER = False
         ans = input("-------- Game ready, do you want to play? Input y/n --------\n")
@@ -21,7 +22,7 @@ class Gomoko:
             for p in range(1, self.player + 1):
                 pos = input("P{} plays: ".format(str(p)))
                 x, y = pos.split()
-                while self.board[int(x) - 1][int(y) - 1] != 0:
+                while int(x) >= self.size or int(y) >= self.size or self.board[int(x) - 1][int(y) - 1] != 0:
                     pos = input("Can not play here, P{} plays: ".format(str(p)))
                     x, y = pos.split()
                 self.board[int(x) - 1][int(y) - 1] = p
@@ -84,19 +85,20 @@ class Gomoko:
         return counter == 4
 
     def __display_board(self):
-        print(" ", end='')
+        os.system("clear")
+        header = ""
         for i in range(self.size):
-            print("{} ".format(str(i + 1)), end='')
-        print("\n", end='')
+            header += str(i+1) + "  "
+        print(" "*7+"{}".format(header))
+        top = " " * 4 + "┌─" + "─┬─" * self.size + "─┐"
+        print(top)
         for i in range(self.size):
-            print(" ", end='')
+            row = ""
             for j in range(self.size):
-                print("- ", end='')
-            print("\n{} ".format(str(i + 1)), end='')
-            for j in range(self.size):
-                print("|{} ".format(self.piece[self.board[i][j]]), end='')
-            print("|\n", end='')
-
+                row += "─{}─".format(self.piece[self.board[i][j]])
+            print("{:4}├─{}─┤".format(str(i+1), row))
+        bottom = " " * 4 + "└─" + "─┴─" * self.size + "─┘"
+        print(bottom)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
