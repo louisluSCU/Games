@@ -12,11 +12,11 @@ class Gomoko:
         self.OVER = False
         ans = input("-------- Game ready, do you want to play? Input y/n --------\n")
         if ans == "y":
-            self.play()
+            self.start()
         else:
             print("Bye")
 
-    def play(self):
+    def start(self):
         self.__display_board()
         while not self.OVER:
             for p in range(1, self.player + 1):
